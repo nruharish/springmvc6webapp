@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -76,7 +77,7 @@ class BeerControllerIT {
                 .queryParam("beerStyle", BeerStyle.IPA.toString())
                 .queryParam("showInventory", "FALSE"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", is(310)));
+                .andExpect(jsonPath("$.length()", is(11)));
     }
 
     @Test
@@ -98,7 +99,7 @@ class BeerControllerIT {
     void testListBeersByName() throws Exception {
          mockMvc.perform(get(BeerController.BEER_PATH)
                  .queryParam("beerName", "IPA")).andExpect(status().isOk())
-                 .andExpect(jsonPath("$.size()", is(336)));
+                 .andExpect(jsonPath("$.size()", is(11)));
     }
     @Test
     void testPatchBeerBadName() throws Exception {
@@ -197,9 +198,9 @@ class BeerControllerIT {
 
     @Test
     void testListBeers() {
-        List<BeerDTO> dtos = beerController.listBeers(null, null, false, 1, 25);
+        Page<BeerDTO> dtos = beerController.listBeers(null, null, false, 1, 25);
 
-        assertThat(dtos.size()).isEqualTo(2413);
+        assertThat(dtos.getContent().size()).isEqualTo(2413);
     }
 
     @Rollback
@@ -207,9 +208,9 @@ class BeerControllerIT {
     @Test
     void testEmptyList() {
         beerRepository.deleteAll();
-        List<BeerDTO> dtos = beerController.listBeers(null, null, false, 1, 25);
+        Page<BeerDTO> dtos = beerController.listBeers(null, null, false, 1, 25);
 
-        assertThat(dtos.size()).isEqualTo(0);
+        assertThat(dtos.getContent().size()).isEqualTo(0);
     }
 }
 

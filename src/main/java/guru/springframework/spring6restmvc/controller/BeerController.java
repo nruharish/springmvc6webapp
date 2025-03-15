@@ -4,13 +4,13 @@ import guru.springframework.spring6restmvc.model.BeerDTO;
 import guru.springframework.spring6restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -65,8 +65,9 @@ public class BeerController {
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
+
     @GetMapping(value = BEER_PATH)
-    public List<BeerDTO> listBeers(@RequestParam (required = false) String beerName,
+    public Page<BeerDTO> listBeers(@RequestParam (required = false) String beerName,
                                    @RequestParam (required = false) String beerStyle,
                                    @RequestParam (required = false) Boolean showInventory,
                                    @RequestParam (required = false) Integer PageNumber,
