@@ -58,6 +58,18 @@ class BeerControllerIT {
 
 
     @Test
+    void testListBeerByNameAndStyleandShowInventoryFalsePage() throws Exception {
+        mockMvc.perform(get(BeerController.BEER_PATH)
+                        .queryParam("beerName", "IPA")
+                        .queryParam("beerStyle", BeerStyle.IPA.toString())
+                        .queryParam("showInventory", "FALSE")
+                        .queryParam("pageNumber", "2")
+                        .queryParam("pageSize", "50"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(50)));
+    }
+
+    @Test
     void testListBeerByNameAndStyleandShowInventoryFalse() throws Exception {
         mockMvc.perform(get(BeerController.BEER_PATH)
                 .queryParam("beerName", "IPA")
