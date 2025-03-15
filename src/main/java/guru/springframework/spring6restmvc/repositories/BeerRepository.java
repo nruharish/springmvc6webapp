@@ -13,4 +13,5 @@ import java.util.UUID;
 public interface BeerRepository extends JpaRepository<Beer, UUID> {
     List<Beer> findAllByBeerNameIsLikeIgnoreCase(String beerName);
     List<Beer> findAllByBeerStyleEquals(BeerStyle beerStyle);
+    List<Beer> findAllByBeerNameIsLikeIgnoreCaseAndBeerStyleEquals(String beerName, BeerStyle beerStyle);
 }
