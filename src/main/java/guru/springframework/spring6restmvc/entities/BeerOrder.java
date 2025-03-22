@@ -38,4 +38,7 @@ public class BeerOrder {
 
     private String customerRef;
 
+    @ManyToOne
+    private Customer customer;
+
 }
